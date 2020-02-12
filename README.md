@@ -1,10 +1,20 @@
 # gtrans
 Google translation CLI tool written in Rust
 
+<div align="center">
+    <img src="images/screen_shot.png" title="screen shot">
+</div>
+
 ## install
 
 ```bash
 $ cargo install gtrans
+```
+
+In macOS you can install it with Homebrew
+```bash
+$ brew tap ksk001100/homebrew-gtrans
+$ brew install gtrans
 ```
 
 ## usage
