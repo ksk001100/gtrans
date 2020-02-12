@@ -24,16 +24,11 @@ before_deploy:
   - cp target/$TARGET/release/gtrans LICENSE README.md "gtrans-${TRAVIS_TAG}-${TARGET}"
   - zip "gtrans-${TRAVIS_TAG}-${TARGET}.zip" -r "gtrans-${TRAVIS_TAG}-${TARGET}"
 deploy:
-  - provider: releases
-    token:
-      secure: yRpO6s67NIaFHXKE2Gahv2caY1xDAo9WButKcqJk095sRwYC1b2JAZp5DKeYVrCGyE+Xdhnvd+Hak4H+ExMW8ILlSgGZi/77j2zLJD6yoSoHyQhGgVY1T0M7Xg5ow76p3wh3GDYE5H4zycWmqUTG8kV05MZXliUWFFpM1gIymCPi2WaxvOcXe47x2iizVE7DHKo82zwf3ybLFj+A+ObxYLuEo5qNzyf4IIqw8lHJtT2FZZSwhECrPjMU5lHCX/NQxulF463y/akiYuVM1jBnqL1dwOKmQIPwMfVzhQ5v4pJFROKHWoqcEwC0mRZQXEg/cjXPJEHUjQtlOCasci4qgEvIsL4luZsS76kjvQMplqku4dslIAuTHQplox5so75RzO5HBARGFrTYj3s37ZiNvsYh4LBn5qFfy6zKL/4h5U1+DenQoK492XjewK9DU3UXhzqgstklqYQa65Q7WRJzbwL2jEHb9ebcAjna/WxJ5YTct3Lr/S5178V9/djI+T74XrPr0w++uv6meOsQqpnxs1IrLkASKRnjUnWnsotKEvWGrlMKzULuxE3TxxcEnbV1Dh6atbKfEwleJAVvR1gbiqSbKpuagr6txgc6YnA/DORFN9W9juXv0DQqtNULjsNwaWbM73KCOoXQUchdNOzOnZufr42TOK3RQ2uvSec485c=
-    file: gtrans-${TRAVIS_TAG}-${TARGET}.zip
-    on:
-      repo: ksk001100/gtrans
-      tags: true
-  - provider: cargo
-    token:
-      secure: 1hHVSc56LG+fMJfA7+bEn+eGNRZeFIH7af0nG509vOGwmk8X93fHuiILaD5V+O/vmP7cSs/09o1flnkwCl8+j3yqa4LGkreB29fBjCIJ7VtXXWBUSR/6IFhxaRD3xFn+2SmXckGLQSLcg0yHImPtTZwvxISiJqURq338M06zVdNX+SHfZxo2GOx5MKJxsXzD8kYZKn2vNws+8ZrH52CNoC043HRH4+CK5DXgq6ImtLj0OV6Gv/xnvi93MRUw3LSmTzKiTH5E09piBIw9H2gWI88MYyMmXWJJHkn7eA++AVasOvIMewSqG3Q0dtVLEoVynACiu6DxA8KCfTsMllYoIgvZXfNfrIvtZFRL4LBGZ372E2gJwR2D5k+DRhpIfFUB57QVG+7Y+PJMGtGfQic090JrgHYGecA67u4eSl54rUymOQl6cMoe7Eiuc/G17PJkCRX5vk2qjchgbxH7dvzYAukeTEal252GMAf4XDo8Vauk2a4VSaYMxUczn5qEg2Q8s6Y2wQoqljzpDJ/FHCZB2ZtfhpTiXUQKBQ7hMl7Lskussl7KX8atehYnXRvYpMfAGm69KzbxOM/kL24rP9/D/9sLDrDmWJb6HugBEKXzyf6JtBrba3yswy5u2NCR44qDrR7yRDTvWJaoTVolIW3TuQWzAZN1juZqCJKmsvKmE+o=
-    on:
-      tags: true
+  provider: releases
+  token:
+    secure: yRpO6s67NIaFHXKE2Gahv2caY1xDAo9WButKcqJk095sRwYC1b2JAZp5DKeYVrCGyE+Xdhnvd+Hak4H+ExMW8ILlSgGZi/77j2zLJD6yoSoHyQhGgVY1T0M7Xg5ow76p3wh3GDYE5H4zycWmqUTG8kV05MZXliUWFFpM1gIymCPi2WaxvOcXe47x2iizVE7DHKo82zwf3ybLFj+A+ObxYLuEo5qNzyf4IIqw8lHJtT2FZZSwhECrPjMU5lHCX/NQxulF463y/akiYuVM1jBnqL1dwOKmQIPwMfVzhQ5v4pJFROKHWoqcEwC0mRZQXEg/cjXPJEHUjQtlOCasci4qgEvIsL4luZsS76kjvQMplqku4dslIAuTHQplox5so75RzO5HBARGFrTYj3s37ZiNvsYh4LBn5qFfy6zKL/4h5U1+DenQoK492XjewK9DU3UXhzqgstklqYQa65Q7WRJzbwL2jEHb9ebcAjna/WxJ5YTct3Lr/S5178V9/djI+T74XrPr0w++uv6meOsQqpnxs1IrLkASKRnjUnWnsotKEvWGrlMKzULuxE3TxxcEnbV1Dh6atbKfEwleJAVvR1gbiqSbKpuagr6txgc6YnA/DORFN9W9juXv0DQqtNULjsNwaWbM73KCOoXQUchdNOzOnZufr42TOK3RQ2uvSec485c=
+  file: gtrans-${TRAVIS_TAG}-${TARGET}.zip
+  on:
+    repo: ksk001100/gtrans
+    tags: true
 cache: cargo
