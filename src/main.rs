@@ -2,14 +2,15 @@ use reqwest;
 use seahorse::{color, SingleApp};
 use serde_json::{self, Value};
 use std::env;
+use std::process::exit;
 
 const BASE_URL: &str = "https://translate.googleapis.com/translate_a/single";
 
 fn main() {
     let args: Vec<String> = env::args().collect();
-    let usage = format!("{} [text]", color::red("gtrans"));
+    let usage = format!("$ {} [{}]", color::green("gtrans"), color::red("text"));
     let app = SingleApp::new()
-        .name(color::red("gtrans"))
+        .name(color::green("gtrans"))
         .usage(usage)
         .version(color::yellow(env!("CARGO_PKG_VERSION")))
         .action(translate);
@@ -19,16 +20,31 @@ fn main() {
 
 fn translate(v: Vec<String>) {
     let url = generate_url(v);
-    let resp = reqwest::blocking::get(&url).unwrap();
-    let body = resp.text().unwrap();
-    let v: Vec<Value> = serde_json::from_str(&body).unwrap();
-    for i in v[0].as_array().unwrap() {
-        println!("{}", i[0].as_str().unwrap());
+    let v = reqwest::blocking::get(&url)
+        .and_then(|resp| resp.text())
+        .and_then(|body| Ok(serde_json::from_str::<Vec<Value>>(&body)))
+        .unwrap_or_else(|_| {
+            eprintln!("{}", color::red("Network error..."));
+            exit(1);
+        })
+        .unwrap_or_else(|_| {
+            eprintln!("{}", color::red("JSON parse error..."));
+            exit(1);
+        });
+
+
+    match v.first() {
+        Some(item) => {
+            for s in item.as_array().unwrap() {
+                println!("{}", s[0].as_str().unwrap());
+            }
+        }
+        None => eprintln!("{}", color::red("Error..."))
     }
 }
 
 fn generate_url(v: Vec<String>) -> String {
-    let q = v.join("");
+    let q = v.join(" ");
     let source = match env::var("GTRANS_SOURCE") {
         Ok(sl) => sl,
         Err(_) => "ja".to_string(),
