@@ -1,7 +1,7 @@
 language: rust
 rust: stable
 dist: xenial
-matrix:
+jobs:
   include:
   - os: osx
     env: TARGET=x86_64-apple-darwin
