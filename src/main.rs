@@ -1,10 +1,11 @@
 use reqwest;
 use seahorse::{color, SingleApp};
 use serde_json::{self, Value};
-use std::env;
-use std::process::exit;
-
-const BASE_URL: &str = "https://translate.googleapis.com/translate_a/single";
+use std::{
+    env,
+    io::{stdout, Write},
+    process::exit,
+};
 
 fn main() {
     let args: Vec<String> = env::args().collect();
@@ -32,18 +33,27 @@ fn translate(v: Vec<String>) {
             exit(1);
         });
 
-
     match v.first() {
         Some(item) => {
-            for s in item.as_array().unwrap() {
-                println!("{}", s[0].as_str().unwrap());
-            }
+            let result = item
+                .as_array()
+                .unwrap()
+                .iter()
+                .map(|s| s[0].as_str().unwrap())
+                .collect::<Vec<&str>>()
+                .join(" ");
+
+            stdout()
+                .lock()
+                .write_all(format!("{}\n", result).as_bytes())
+                .unwrap();
         }
-        None => eprintln!("{}", color::red("Error..."))
+        None => eprintln!("{}", color::red("Error...")),
     }
 }
 
 fn generate_url(v: Vec<String>) -> String {
+    let base_url = "https://translate.googleapis.com/translate_a/single";
     let q = v.join(" ");
     let source = match env::var("GTRANS_SOURCE") {
         Ok(sl) => sl,
@@ -57,7 +67,7 @@ fn generate_url(v: Vec<String>) -> String {
 
     format!(
         "{}{}{}{}{}",
-        BASE_URL,
+        base_url,
         "?client=gtx&ie=UTF-8&oe=UTF-8&dt=t",
         format!("{}{}", "&sl=", source),
         format!("{}{}", "&tl=", target),

@@ -1,4 +1,12 @@
 # gtrans
+[![crates.io](https://img.shields.io/crates/v/gtrans.svg)](https://crates.io/crates/gtrans)
+![](https://img.shields.io/github/stars/ksk001100/gtrans.svg)
+![](https://img.shields.io/github/release/ksk001100/gtrans.svg)
+![](https://img.shields.io/github/issues/ksk001100/gtrans.svg)
+![](https://img.shields.io/github/forks/ksk001100/gtrans.svg)
+![](https://img.shields.io/github/license/ksk001100/gtrans.svg)
+[![Build Status](https://travis-ci.org/ksk001100/gtrans.svg?branch=master)](https://travis-ci.org/ksk001100/gtrans)
+
 Google translation CLI tool written in Rust
 
 <div align="center">
