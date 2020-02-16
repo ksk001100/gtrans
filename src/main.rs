@@ -1,5 +1,5 @@
 use reqwest;
-use seahorse::{color, SingleApp};
+use seahorse::{color, Context, Flag, FlagType, SingleApp};
 use serde_json::{self, Value};
 use std::{
     env,
@@ -14,13 +14,33 @@ fn main() {
         .name(color::green("gtrans"))
         .usage(usage)
         .version(color::yellow(env!("CARGO_PKG_VERSION")))
-        .action(translate);
+        .action(translate)
+        .flags(vec![
+            Flag::new("source", "gtrans [string] --source en", FlagType::String),
+            Flag::new("target", "gtrans [string] --target ja", FlagType::String),
+        ]);
 
     app.run(args);
 }
 
-fn translate(v: Vec<String>) {
-    let url = generate_url(v);
+fn translate(c: &Context) {
+    let source = match env::var("GTRANS_SOURCE") {
+        Ok(sl) => match c.string_flag("source") {
+            Some(flag) => flag,
+            None => sl,
+        },
+        Err(_) => "ja".to_string(),
+    };
+
+    let target = match env::var("GTRANS_TARGET") {
+        Ok(tl) => match c.string_flag("target") {
+            Some(flag) => flag,
+            None => tl,
+        },
+        Err(_) => "en".to_string(),
+    };
+
+    let url = generate_url(&c.args, source, target);
     let v = reqwest::blocking::get(&url)
         .and_then(|resp| resp.text())
         .and_then(|body| Ok(serde_json::from_str::<Vec<Value>>(&body)))
@@ -52,19 +72,9 @@ fn translate(v: Vec<String>) {
     }
 }
 
-fn generate_url(v: Vec<String>) -> String {
+fn generate_url(v: &Vec<String>, source: String, target: String) -> String {
     let base_url = "https://translate.googleapis.com/translate_a/single";
     let q = v.join(" ");
-    let source = match env::var("GTRANS_SOURCE") {
-        Ok(sl) => sl,
-        Err(_) => "ja".to_string(),
-    };
-
-    let target = match env::var("GTRANS_TARGET") {
-        Ok(tl) => tl,
-        Err(_) => "en".to_string(),
-    };
-
     format!(
         "{}{}{}{}{}",
         base_url,
