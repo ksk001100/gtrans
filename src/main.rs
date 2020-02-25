@@ -1,5 +1,5 @@
 use reqwest;
-use seahorse::{color, Context, Flag, FlagType, SingleApp};
+use seahorse::{color, App, Context, Flag, FlagType};
 use serde_json::{self, Value};
 use std::{
     env,
@@ -10,15 +10,39 @@ use std::{
 fn main() {
     let args: Vec<String> = env::args().collect();
     let usage = format!("$ {} [{}]", color::green("gtrans"), color::red("text"));
-    let app = SingleApp::new()
+    let source_flag = Flag::new(
+        "source",
+        &format!(
+            "$ {} [{}] {} {}",
+            color::green("gtrans"),
+            color::red("text"),
+            color::yellow("--source"),
+            color::blue("en")
+        ),
+        FlagType::String,
+    )
+    .alias("s");
+
+    let target_flag = Flag::new(
+        "target",
+        &format!(
+            "$ {} [{}] {} {}",
+            color::green("gtrans"),
+            color::red("text"),
+            color::yellow("--target"),
+            color::blue("ja"),
+        ),
+        FlagType::String,
+    )
+    .alias("t");
+
+    let app = App::new()
         .name(color::green("gtrans"))
         .usage(usage)
         .version(color::yellow(env!("CARGO_PKG_VERSION")))
         .action(translate)
-        .flags(vec![
-            Flag::new("source", "gtrans [string] --source en", FlagType::String),
-            Flag::new("target", "gtrans [string] --target ja", FlagType::String),
-        ]);
+        .flag(source_flag)
+        .flag(target_flag);
 
     app.run(args);
 }

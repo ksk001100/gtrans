@@ -40,4 +40,6 @@ $ export GTRANS_TARGET=ja
 $ gtrans Hello world
 $ GTRANS_SOURCE=en GTRANS_TARGET=ja gtrans Hello world
 $ gtrans Hello world --source en --target ja
+$ gtrans Hello world -s en -t ja
+$ gtrans Bonjour, monde -s fr -t en
 ```
