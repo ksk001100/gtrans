@@ -39,6 +39,8 @@ fn main() {
     let app = App::new()
         .name(color::green("gtrans"))
         .usage(usage)
+        .author(env!("CARGO_PKG_AUTHORS"))
+        .description(env!("CARGO_PKG_DESCRIPTION"))
         .version(color::yellow(env!("CARGO_PKG_VERSION")))
         .action(translate)
         .flag(source_flag)
@@ -48,6 +50,12 @@ fn main() {
 }
 
 fn translate(c: &Context) {
+    if c.args.len() < 1 {
+        println!("Please enter text...");
+        return;
+    }
+
+
     let source = match env::var("GTRANS_SOURCE") {
         Ok(sl) => match c.string_flag("source") {
             Some(flag) => flag,

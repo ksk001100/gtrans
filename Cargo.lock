@@ -185,7 +185,7 @@ dependencies = [
 
 [[package]]
 name = "gtrans"
-version = "0.2.0"
+version = "0.2.1"
 dependencies = [
  "reqwest",
  "seahorse",
@@ -687,9 +687,9 @@ dependencies = [
 
 [[package]]
 name = "seahorse"
-version = "0.6.1"
+version = "0.7.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "24374e880c4bc0ac6688f921b0ad7857d31c4d147d6e274014d05fd67d2e3845"
+checksum = "fd949336e9fc352079c558b83728cd2505fb6f9d02ccd8e72498067801627e9d"
 
 [[package]]
 name = "security-framework"
